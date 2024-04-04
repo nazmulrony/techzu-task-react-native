@@ -1,8 +1,10 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
 import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createStackNavigator();
+
 const StackNavigator = () => {
     return (
         <Stack.Navigator
@@ -10,7 +12,8 @@ const StackNavigator = () => {
                 headerShown: false,
             }}
         >
-            {/* <Stack.Screen component={LoginScreen} name="LoginScreen" /> */}
+            <Stack.Screen component={LoginScreen} name="LoginScreen" />
+            <Stack.Screen component={SignupScreen} name="SignupScreen" />
             <Stack.Screen component={DrawerNavigator} name="DrawerNavigator" />
         </Stack.Navigator>
     );
