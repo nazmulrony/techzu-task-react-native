@@ -1,5 +1,6 @@
 import { Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import AppBar from "../components/AppBar";
 import HomeScreen from "../screens/HomeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import TasksScreen from "../screens/TasksScreen";
@@ -10,6 +11,11 @@ const DrawerNavigator = () => {
         <Drawer.Navigator
             screenOptions={{
                 drawerActiveTintColor: "#663399",
+                headerRight: () => <AppBar />,
+
+                headerStyle: {
+                    height: 100,
+                },
             }}
         >
             <Drawer.Screen
