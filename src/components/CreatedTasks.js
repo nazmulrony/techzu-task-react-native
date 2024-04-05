@@ -4,6 +4,7 @@ import { useGetTasks } from "../services/queries";
 import { UserContext } from "../utils/UserProvider";
 import ListEmptyComponent from "./ListEmptyComponent";
 import TaskCard from "./TaskCard";
+import TaskCount from "./TaskCount";
 const CreatedTasks = () => {
     const { user } = useContext(UserContext);
 
@@ -14,6 +15,7 @@ const CreatedTasks = () => {
             style={styles.container}
             showsVerticalScrollIndicator={false}
             data={data}
+            ListHeaderComponent={<TaskCount data={data} />}
             ListEmptyComponent={
                 <ListEmptyComponent
                     isLoading={isPending}

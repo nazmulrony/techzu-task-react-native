@@ -1,8 +1,8 @@
+import { useContext } from "react";
 import { FlatList, RefreshControl, StyleSheet, Text } from "react-native";
+import { colors } from "../../styles";
 import ListEmptyComponent from "../components/ListEmptyComponent";
 import { useGetTasks } from "../services/queries";
-import { colors } from "../../styles";
-import { useContext } from "react";
 import { UserContext } from "../utils/UserProvider";
 
 const HomeScreen = () => {
@@ -46,8 +46,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "500",
         marginBottom: 10,
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.primary300,
         padding: 8,
         borderRadius: 8,
+        color: colors.primary500,
     },
 });

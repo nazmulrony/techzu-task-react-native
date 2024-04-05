@@ -50,6 +50,7 @@ const TaskCard = ({ task }) => {
                     compact
                     labelStyle={{
                         marginVertical: 4,
+                        fontSize: 12,
                     }}
                 >
                     Complete
@@ -63,6 +64,7 @@ const TaskCard = ({ task }) => {
                     compact
                     labelStyle={{
                         marginVertical: 4,
+                        fontSize: 12,
                     }}
                 >
                     Delete
@@ -75,7 +77,7 @@ export default TaskCard;
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
-        borderColor: colors.primary500,
+        borderColor: colors.border,
         padding: 10,
         marginBottom: 10,
         borderRadius: 8,

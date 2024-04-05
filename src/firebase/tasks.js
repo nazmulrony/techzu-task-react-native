@@ -19,8 +19,6 @@ export async function getTasks(uid) {
         taskCollection,
         where("uid", "==", uid)
         //OrderBy query wasn't working for me. So I sorted the task in client side
-        // orderBy("createdAt")
-
         // orderBy("createdAt", "desc")
     );
     const tasksSnapshot = await getDocs(q);

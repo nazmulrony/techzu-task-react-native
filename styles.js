@@ -1,5 +1,5 @@
 export const colors = {
-    primary300: "#f0dbff",
+    primary300: "#efdcfc",
     primary500: "#663399",
     info50: "#FFF4EA",
     info500: "#FF891B",
@@ -9,4 +9,5 @@ export const colors = {
     success500: "#229562",
     background: "#F2F5F7",
     muted: "#5f5f5f",
+    border: "#ccd2da",
 };
