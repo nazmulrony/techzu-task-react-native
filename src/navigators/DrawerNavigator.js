@@ -6,10 +6,14 @@ import TasksScreen from "../screens/TasksScreen";
 const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
     return (
-        <Drawer.Navigator>
-            <Drawer.Screen component={HomeScreen} name="HomeScreen" />
-            <Drawer.Screen component={TasksScreen} name="TasksScreen" />
-            <Drawer.Screen component={SettingsScreen} name="SettingsScreen" />
+        <Drawer.Navigator
+            screenOptions={{
+                drawerActiveTintColor: "#663399",
+            }}
+        >
+            <Drawer.Screen component={HomeScreen} name="Home" />
+            <Drawer.Screen component={TasksScreen} name="Tasks" />
+            <Drawer.Screen component={SettingsScreen} name="Settings" />
         </Drawer.Navigator>
     );
 };

@@ -1,17 +1,18 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { UserContext } from "../utils/UserProvider";
+import { useLogin } from "../services/mutations";
 
 const LoginScreen = ({ navigation }) => {
-    const { user, setUser } = useContext(UserContext);
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    //Login hook using tanStack query
+    const { mutateAsync: loginUser, isPending, error } = useLogin();
+
     const handleLogin = async () => {
-        console.log({ email, password });
+        await loginUser({ email, password });
     };
     return (
         <SafeAreaView style={styles.screen}>
@@ -28,15 +29,22 @@ const LoginScreen = ({ navigation }) => {
                     secureTextEntry
                     onChangeText={(value) => setPassword(value)}
                 />
-                <Button mode="contained" onPress={handleLogin}>
-                    Sign in
+                {error?.message ? (
+                    <Text style={styles.errorText}>{error.message}</Text>
+                ) : null}
+                <Button
+                    mode="contained"
+                    onPress={handleLogin}
+                    loading={isPending}
+                >
+                    Login
                 </Button>
             </View>
             <View style={styles.signup}>
                 <Text>Don't have an account?</Text>
                 <Text
                     style={styles.signupText}
-                    onPress={() => navigation.navigate("SignupScreen")}
+                    onPress={() => navigation.navigate("Signup")}
                 >
                     Signup
                 </Text>
@@ -70,5 +78,8 @@ const styles = StyleSheet.create({
     },
     signupText: {
         color: "blue",
+    },
+    errorText: {
+        color: "red",
     },
 });

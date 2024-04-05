@@ -1,27 +1,18 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { UserContext } from "../utils/UserProvider";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { app } from "../../firebase.config";
+import { useSignup } from "../services/mutations";
 
-const SignupScreen = () => {
-    const { user, setUser } = useContext(UserContext);
-
+const SignupScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    //signup hook
+    const { mutateAsync: createUser, isPending, error } = useSignup();
+
     const handleSignup = async () => {
-        try {
-            const auth = getAuth(app);
-            const res = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            setUser(res.user);
-        } catch (error) {}
+        await createUser({ email, password });
     };
     return (
         <SafeAreaView style={styles.screen}>
@@ -38,13 +29,25 @@ const SignupScreen = () => {
                     secureTextEntry
                     onChangeText={(value) => setPassword(value)}
                 />
-                <Button mode="contained" onPress={handleSignup}>
-                    Sign in
+                {error?.message ? (
+                    <Text style={styles.errorText}>{error.message}</Text>
+                ) : null}
+                <Button
+                    mode="contained"
+                    onPress={handleSignup}
+                    loading={isPending}
+                >
+                    Sign up
                 </Button>
             </View>
             <View style={styles.login}>
                 <Text>Already have an account?</Text>
-                <Text style={styles.loginText}>login</Text>
+                <Text
+                    onPress={() => navigation.navigate("Login")}
+                    style={styles.loginText}
+                >
+                    login
+                </Text>
             </View>
         </SafeAreaView>
     );
@@ -75,5 +78,8 @@ const styles = StyleSheet.create({
     },
     loginText: {
         color: "blue",
+    },
+    errorText: {
+        color: "red",
     },
 });
