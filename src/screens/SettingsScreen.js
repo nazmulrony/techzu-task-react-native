@@ -1,10 +1,9 @@
 import { signOut } from "firebase/auth";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Button } from "react-native-paper";
-import { UserContext, auth } from "../utils/UserProvider";
 import { useContext } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-paper";
 import { colors } from "../../styles";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { UserContext, auth } from "../utils/UserProvider";
 
 const SettingsScreen = () => {
     const { user } = useContext(UserContext);
@@ -32,6 +31,12 @@ const SettingsScreen = () => {
                 <View style={styles.infoContainer}>
                     <Text>Email: </Text>
                     <Text style={styles.infoItem}>{user?.email}</Text>
+                </View>
+                <View style={styles.infoContainer}>
+                    <Text>Email Verification: </Text>
+                    <Text style={styles.infoItem}>
+                        {user?.emailVerified ? "verified" : "not verified"}
+                    </Text>
                 </View>
 
                 <Button mode="contained" onPress={() => signOut(auth)}>
@@ -72,5 +77,6 @@ const styles = StyleSheet.create({
     },
     infoItem: {
         fontWeight: "500",
+        color: colors.muted,
     },
 });

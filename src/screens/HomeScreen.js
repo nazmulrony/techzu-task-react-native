@@ -4,6 +4,7 @@ import { colors } from "../../styles";
 import ListEmptyComponent from "../components/ListEmptyComponent";
 import { useGetTasks } from "../services/queries";
 import { UserContext } from "../utils/UserProvider";
+import SimplifiedTaskCard from "../components/SimplifiedTaskCard";
 
 const HomeScreen = () => {
     const { user } = useContext(UserContext);
@@ -29,9 +30,7 @@ const HomeScreen = () => {
                     />
                 }
                 keyExtractor={(item) => item?.id}
-                renderItem={({ item }) => (
-                    <Text style={styles.listItem}>{item?.title}</Text>
-                )}
+                renderItem={({ item }) => <SimplifiedTaskCard task={item} />}
             />
         </View>
     );
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: 16,
+        padding: 10,
         backgroundColor: "#fff",
         borderRadius: 8,
     },
