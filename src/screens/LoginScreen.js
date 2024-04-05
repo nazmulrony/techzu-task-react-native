@@ -2,6 +2,7 @@ import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { colors } from "../../styles";
 import { useLogin } from "../services/mutations";
 
 const LoginScreen = ({ navigation }) => {
@@ -9,7 +10,7 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
 
     //Login hook using tanStack query
-    const { mutateAsync: loginUser, isPending, error } = useLogin();
+    const { mutateAsync: loginUser, isPending, error, isError } = useLogin();
 
     const handleLogin = async () => {
         await loginUser({ email, password });
@@ -21,15 +22,18 @@ const LoginScreen = ({ navigation }) => {
                 <TextInput
                     mode="outlined"
                     label="Email"
+                    keyboardType="email-address"
+                    value={email?.toLocaleLowerCase()}
                     onChangeText={(value) => setEmail(value)}
                 />
                 <TextInput
                     mode="outlined"
                     label="Password"
+                    value={password}
                     secureTextEntry
                     onChangeText={(value) => setPassword(value)}
                 />
-                {error?.message ? (
+                {isError ? (
                     <Text style={styles.errorText}>{error.message}</Text>
                 ) : null}
                 <Button
@@ -77,9 +81,9 @@ const styles = StyleSheet.create({
         marginTop: "70%",
     },
     signupText: {
-        color: "blue",
+        color: colors.primary500,
     },
     errorText: {
-        color: "red",
+        color: colors.error500,
     },
 });

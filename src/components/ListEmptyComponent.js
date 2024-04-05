@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import { colors } from "../../styles";
 const ListEmptyComponent = ({ isLoading, containerStyle, text }) => {
     return (
         <View style={[styles.container, containerStyle]}>
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     emptyText: {
-        color: "#575757",
+        color: colors.muted,
         textAlign: "center",
         fontSize: 16,
         fontWeight: "500",

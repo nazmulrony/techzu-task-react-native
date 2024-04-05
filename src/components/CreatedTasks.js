@@ -1,17 +1,17 @@
-import { FlatList, RefreshControl, StyleSheet, Text } from "react-native";
-import ListEmptyComponent from "../components/ListEmptyComponent";
-import { useGetTasks } from "../services/queries";
-import { colors } from "../../styles";
 import { useContext } from "react";
+import { FlatList, RefreshControl, StyleSheet } from "react-native";
+import { useGetTasks } from "../services/queries";
 import { UserContext } from "../utils/UserProvider";
-
-const HomeScreen = () => {
+import ListEmptyComponent from "./ListEmptyComponent";
+import TaskCard from "./TaskCard";
+const CreatedTasks = () => {
     const { user } = useContext(UserContext);
 
     const { data, isPending, refetch } = useGetTasks(user?.uid);
+
     return (
         <FlatList
-            style={styles.screen}
+            style={styles.container}
             showsVerticalScrollIndicator={false}
             data={data}
             ListEmptyComponent={
@@ -28,26 +28,16 @@ const HomeScreen = () => {
                 />
             }
             keyExtractor={(item) => item?.id}
-            renderItem={({ item }) => (
-                <Text style={styles.listItem}>{item?.title}</Text>
-            )}
+            renderItem={({ item }) => <TaskCard task={item} />}
         />
     );
 };
-export default HomeScreen;
-
+export default CreatedTasks;
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: colors.background,
-    },
-    listItem: {
-        fontSize: 16,
-        fontWeight: "500",
-        marginBottom: 10,
-        backgroundColor: "#ffffff",
-        padding: 8,
+    container: {
+        backgroundColor: "#fff",
+        padding: 10,
         borderRadius: 8,
+        marginTop: 16,
     },
 });

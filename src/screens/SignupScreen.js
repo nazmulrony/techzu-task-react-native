@@ -3,13 +3,14 @@ import { StyleSheet, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSignup } from "../services/mutations";
+import { colors } from "../../styles";
 
 const SignupScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     //signup hook
-    const { mutateAsync: createUser, isPending, error } = useSignup();
+    const { mutateAsync: createUser, isPending, error, isError } = useSignup();
 
     const handleSignup = async () => {
         await createUser({ email, password });
@@ -21,15 +22,17 @@ const SignupScreen = ({ navigation }) => {
                 <TextInput
                     mode="outlined"
                     label="Email"
+                    value={email?.toLocaleLowerCase()}
                     onChangeText={(value) => setEmail(value)}
                 />
                 <TextInput
                     mode="outlined"
                     label="Password"
+                    value={password}
                     secureTextEntry
                     onChangeText={(value) => setPassword(value)}
                 />
-                {error?.message ? (
+                {isError ? (
                     <Text style={styles.errorText}>{error.message}</Text>
                 ) : null}
                 <Button
@@ -77,9 +80,9 @@ const styles = StyleSheet.create({
         marginTop: "70%",
     },
     loginText: {
-        color: "blue",
+        color: colors.primary500,
     },
     errorText: {
-        color: "red",
+        color: colors.error500,
     },
 });

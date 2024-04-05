@@ -1,10 +1,11 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getTasks } from "../firebase/tasks";
 
-export function useGetTasks() {
+export function useGetTasks(uid) {
     return useQuery({
         queryKey: ["tasks"],
-        queryFn: () => getTasks(),
+        queryFn: () => getTasks(uid),
+
         // placeholderData: keepPreviousData,
     });
 }
