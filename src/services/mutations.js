@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginRequest, signupRequest } from "../firebase/auth";
-import { addTaskRequest, updateTask } from "../firebase/tasks";
+import { addTaskRequest, deleteTask, updateTask } from "../firebase/tasks";
 
 export const useSignup = () => {
     return useMutation({ mutationFn: signupRequest });
@@ -27,6 +27,20 @@ export const useUpdateTask = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: updateTask,
+        onSettled: async (_, error) => {
+            if (error) {
+                console.log(error);
+            } else {
+                await queryClient.invalidateQueries({ queryKey: ["tasks"] });
+            }
+        },
+    });
+};
+
+export const useDeleteTask = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: deleteTask,
         onSettled: async (_, error) => {
             if (error) {
                 console.log(error);

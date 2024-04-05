@@ -2,6 +2,7 @@ import {
     Timestamp,
     addDoc,
     collection,
+    deleteDoc,
     doc,
     getDocs,
     orderBy,
@@ -33,8 +34,7 @@ export async function getTasks(uid) {
 
 export async function addTaskRequest(data) {
     const taskData = {
-        // createdAt: Timestamp.now(),
-        createdAt: new Date(),
+        createdAt: Timestamp.now(),
         ...data,
     };
     return await addDoc(taskCollection, taskData);
@@ -43,4 +43,9 @@ export async function addTaskRequest(data) {
 export async function updateTask(taskId) {
     const taskRef = doc(taskCollection, taskId);
     await updateDoc(taskRef, { isCompleted: true });
+}
+
+export async function deleteTask(taskId) {
+    const taskRef = doc(taskCollection, taskId);
+    await deleteDoc(taskRef);
 }

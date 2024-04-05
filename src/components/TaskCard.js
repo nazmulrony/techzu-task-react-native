@@ -1,31 +1,43 @@
 import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../../styles";
 import { Button } from "react-native-paper";
-import { useUpdateTask } from "../services/mutations";
+import { useDeleteTask, useUpdateTask } from "../services/mutations";
+import dayjs from "dayjs";
+import { getMilliseconds } from "../utils/getMilliSeconds";
 
 const TaskCard = ({ task }) => {
     const { mutateAsync: updateTask, isPending } = useUpdateTask();
+    const { mutateAsync: deleteTask, isPending: isDeleting } = useDeleteTask();
+
     return (
         <View style={styles.container}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, gap: 8 }}>
                 <Text style={styles.title}>{task?.title}</Text>
-                <View
-                    style={[
-                        styles.status,
-                        task?.isCompleted && {
-                            backgroundColor: colors.success50,
-                        },
-                    ]}
-                >
-                    <Text
+                <View style={{ gap: 4 }}>
+                    <View
                         style={[
-                            styles.statusText,
+                            styles.status,
                             task?.isCompleted && {
-                                color: colors.success500,
+                                backgroundColor: colors.success50,
                             },
                         ]}
                     >
-                        {task.isCompleted ? "Completed" : "Incomplete"}
+                        <Text
+                            style={[
+                                styles.statusText,
+                                task?.isCompleted && {
+                                    color: colors.success500,
+                                },
+                            ]}
+                        >
+                            {task.isCompleted ? "Completed" : "Incomplete"}
+                        </Text>
+                    </View>
+                    <Text style={{ fontSize: 12 }}>
+                        Created At:{" "}
+                        {dayjs(getMilliseconds(task?.createdAt)).format(
+                            "MMMM D, YYYY"
+                        )}
                     </Text>
                 </View>
             </View>
@@ -44,7 +56,9 @@ const TaskCard = ({ task }) => {
                 </Button>
                 <Button
                     mode="contained"
-                    onPress={() => {}}
+                    loading={isDeleting}
+                    disabled={isDeleting}
+                    onPress={async () => await deleteTask(task?.id)}
                     buttonColor={colors.error500}
                     compact
                     labelStyle={{
