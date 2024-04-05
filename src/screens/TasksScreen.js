@@ -19,7 +19,7 @@ export default TasksScreen;
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        padding: 16,
+        padding: 10,
         backgroundColor: colors.background,
     },
 });
