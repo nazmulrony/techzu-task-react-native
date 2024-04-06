@@ -21,8 +21,6 @@ const AddNewTask = () => {
 
     const { mutateAsync: addTask, isPending, error, isError } = useAddTask();
 
-    console.log(getValues());
-
     // Add task handler
     const handleAddTask = async (values) => {
         inputRef?.current?.blur();

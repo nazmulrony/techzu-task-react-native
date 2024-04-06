@@ -4,14 +4,17 @@ import { Image, StyleSheet, TouchableOpacity } from "react-native";
 const UserProfile = ({ onPress, userDetails }) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles.container}>
-            <Image
-                source={
-                    userDetails?.photoUrl
-                        ? { uri: userDetails.photoUrl }
-                        : require("./../../assets/user.jpg")
-                }
-                style={styles.image}
-            />
+            {userDetails?.photoUrl ? (
+                <Image
+                    source={{ uri: userDetails.photoUrl }}
+                    style={styles.image}
+                />
+            ) : (
+                <Image
+                    source={require("./../../assets/user.jpg")}
+                    style={styles.image}
+                />
+            )}
         </TouchableOpacity>
     );
 };

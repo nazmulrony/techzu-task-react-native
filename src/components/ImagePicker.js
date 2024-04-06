@@ -3,7 +3,6 @@ import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import {
     ActivityIndicator,
-    Dimensions,
     Image,
     Pressable,
     StyleSheet,
@@ -57,7 +56,7 @@ const PickImage = ({ label, setSelectedImage, existingImage }) => {
             <Text style={styles.label}>{label}</Text>
 
             <View style={styles.container}>
-                {image?.length ? (
+                {image ? (
                     <View style={{ position: "relative" }}>
                         <Image source={{ uri: image }} style={styles.image} />
                         {isLoading && (
@@ -116,7 +115,7 @@ const styles = StyleSheet.create({
     picker: {
         borderStyle: "dashed",
         borderColor: colors.primary500,
-        backgroundColor: colors.light50,
+        backgroundColor: colors.background,
         borderWidth: 1,
         borderRadius: 8,
         flexDirection: "row",
@@ -126,7 +125,6 @@ const styles = StyleSheet.create({
         width: 100,
     },
     label: {
-        color: colors.dark500,
         fontWeight: "500",
         marginVertical: 4,
     },
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
     },
     image: {
         borderWidth: 1,
-        borderColor: colors.gray100,
+        borderColor: colors.border,
         height: 100,
         width: 100,
         marginBottom: 20,

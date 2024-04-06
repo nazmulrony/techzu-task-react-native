@@ -11,14 +11,17 @@ const SettingsScreen = () => {
         <View style={styles.screen}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
-                    <Image
-                        source={
-                            userDetails?.photoUrl
-                                ? { uri: userDetails?.photoUrl }
-                                : require("./../../assets/user.jpg")
-                        }
-                        style={styles.image}
-                    />
+                    {userDetails?.photoUrl ? (
+                        <Image
+                            source={{ uri: userDetails.photoUrl }}
+                            style={styles.image}
+                        />
+                    ) : (
+                        <Image
+                            source={require("./../../assets/user.jpg")}
+                            style={styles.image}
+                        />
+                    )}
                 </View>
 
                 <View style={styles.infoContainer}>
@@ -86,5 +89,6 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 12,
         borderRadius: 8,
+        flex: 1,
     },
 });

@@ -48,6 +48,7 @@ const TaskCard = ({ task }) => {
                     disabled={isPending || task?.isCompleted}
                     onPress={async () => await updateTask(task?.id)}
                     compact
+                    style={{ width: 90 }}
                     labelStyle={{
                         marginVertical: 4,
                         fontSize: 12,
@@ -59,6 +60,7 @@ const TaskCard = ({ task }) => {
                     mode="contained"
                     loading={isDeleting}
                     disabled={isDeleting}
+                    style={{ width: 90 }}
                     onPress={async () => await deleteTask(task?.id)}
                     buttonColor={colors.error500}
                     compact

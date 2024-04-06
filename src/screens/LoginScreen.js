@@ -24,7 +24,6 @@ const LoginScreen = ({ navigation }) => {
 
     // login handler
     const handleLogin = async (values) => {
-        console.log(values);
         await loginUser({ email: values.email, password: values.password });
     };
     return (
