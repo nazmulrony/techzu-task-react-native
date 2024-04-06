@@ -1,32 +1,61 @@
-import { useContext, useState } from "react";
+import { useContext, useRef } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, Text, View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
-import { useAddTask } from "../services/mutations";
+import { Button } from "react-native-paper";
 import { colors } from "../../styles";
+import { useAddTask } from "../services/mutations";
 import { UserContext } from "../utils/UserProvider";
+import InputField from "./InputField";
 
 const AddNewTask = () => {
     const { user } = useContext(UserContext);
-    const [taskTitle, setTaskTitle] = useState("");
+    const inputRef = useRef();
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors },
+        getValues,
+    } = useForm();
+
     const { mutateAsync: addTask, isPending, error, isError } = useAddTask();
 
-    const handleAddTask = async () => {
+    console.log(getValues());
+
+    // Add task handler
+    const handleAddTask = async (values) => {
+        inputRef?.current?.blur();
         const res = await addTask({
-            title: taskTitle,
             uid: user?.uid,
             isCompleted: false,
+            ...values,
         });
+
         if (res.type === "document") {
-            setTaskTitle("");
+            reset({ title: "" });
         }
     };
+
     return (
         <View style={styles.container}>
-            <TextInput
-                mode="outlined"
-                label="Title"
-                value={taskTitle}
-                onChangeText={(value) => setTaskTitle(value)}
+            <Controller
+                name="title"
+                control={control}
+                rules={{
+                    required: "Title is required",
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <InputField
+                        label="Title"
+                        error={errors?.title?.message}
+                        value={value}
+                        onChangeText={(value) => onChange(value)}
+                        inputConfig={{
+                            ref: inputRef,
+                        }}
+                    />
+                )}
             />
             {isError ? (
                 <Text style={styles.errorText}>{error?.message}</Text>
@@ -34,7 +63,7 @@ const AddNewTask = () => {
             <Button
                 mode="contained"
                 loading={isPending}
-                onPress={handleAddTask}
+                onPress={handleSubmit(handleAddTask)}
             >
                 Add Task
             </Button>

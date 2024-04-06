@@ -7,7 +7,6 @@ import { UserContext, auth } from "../utils/UserProvider";
 
 const SettingsScreen = () => {
     const { user, userDetails } = useContext(UserContext);
-    console.log(userDetails);
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
@@ -84,7 +83,8 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         color: colors.muted,
         backgroundColor: colors.background,
-        padding: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
         borderRadius: 8,
     },
 });

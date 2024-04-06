@@ -14,7 +14,6 @@ const DrawerNavigator = () => {
 
     //fetching user name and photo and saving it state
     const { data, isSuccess } = useGetUserByEmail(user?.email);
-    console.log(data);
 
     useEffect(() => {
         if (isSuccess) {

@@ -5,32 +5,40 @@ import ListEmptyComponent from "../components/ListEmptyComponent";
 import { useGetTasks } from "../services/queries";
 import { UserContext } from "../utils/UserProvider";
 import SimplifiedTaskCard from "../components/SimplifiedTaskCard";
+import ErrorMessage from "../components/ErrorMessage";
 
 const HomeScreen = () => {
     const { user } = useContext(UserContext);
-    const { data, isPending, refetch, error } = useGetTasks(user?.uid);
+    const { data, isPending, refetch, error, isError } = useGetTasks(user?.uid);
     return (
         <View style={styles.screen}>
-            <FlatList
-                style={styles.container}
-                showsVerticalScrollIndicator={false}
-                data={data}
-                ListEmptyComponent={
-                    <ListEmptyComponent
-                        isLoading={isPending}
-                        text={"No task created!"}
-                    />
-                }
-                refreshControl={
-                    <RefreshControl
-                        refreshing={false}
-                        onRefresh={refetch}
-                        colors={["#663399"]}
-                    />
-                }
-                keyExtractor={(item) => item?.id}
-                renderItem={({ item }) => <SimplifiedTaskCard task={item} />}
-            />
+            {isError ? (
+                <ErrorMessage message={error.message} />
+            ) : (
+                <FlatList
+                    style={styles.container}
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                    data={data}
+                    ListEmptyComponent={
+                        <ListEmptyComponent
+                            isLoading={isPending}
+                            text={"No task created!"}
+                        />
+                    }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={false}
+                            onRefresh={refetch}
+                            colors={["#663399"]}
+                        />
+                    }
+                    keyExtractor={(item) => item?.id}
+                    renderItem={({ item }) => (
+                        <SimplifiedTaskCard task={item} />
+                    )}
+                />
+            )}
         </View>
     );
 };

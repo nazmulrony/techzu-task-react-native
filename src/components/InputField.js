@@ -34,7 +34,7 @@ const InputField = ({
                 left={left}
                 defaultValue=""
                 label={label}
-                valudfde={value}
+                value={value}
                 onChangeText={onChangeText}
                 {...inputConfig}
                 placeholder={placeholder}
