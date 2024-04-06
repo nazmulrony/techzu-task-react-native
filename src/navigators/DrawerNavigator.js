@@ -4,9 +4,25 @@ import AppBar from "../components/AppBar";
 import HomeScreen from "../screens/HomeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import TasksScreen from "../screens/TasksScreen";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../utils/UserProvider";
+import { useGetUserByEmail } from "../services/queries";
 
 const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
+    const { user, setUserDetails } = useContext(UserContext);
+
+    //fetching user name and photo and saving it state
+    const { data, isSuccess } = useGetUserByEmail(user?.email);
+    console.log(data);
+
+    useEffect(() => {
+        if (isSuccess) {
+            setUserDetails(data);
+        } else {
+            setUserDetails(null);
+        }
+    }, [isSuccess]);
     return (
         <Drawer.Navigator
             screenOptions={{

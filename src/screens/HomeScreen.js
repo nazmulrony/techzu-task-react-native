@@ -8,8 +8,7 @@ import SimplifiedTaskCard from "../components/SimplifiedTaskCard";
 
 const HomeScreen = () => {
     const { user } = useContext(UserContext);
-
-    const { data, isPending, refetch } = useGetTasks(user?.uid);
+    const { data, isPending, refetch, error } = useGetTasks(user?.uid);
     return (
         <View style={styles.screen}>
             <FlatList

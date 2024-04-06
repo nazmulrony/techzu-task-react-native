@@ -1,9 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { useContext } from "react";
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
-import DrawerNavigator from "./DrawerNavigator";
-import { useContext } from "react";
 import { UserContext } from "../utils/UserProvider";
+import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createStackNavigator();
 

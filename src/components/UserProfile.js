@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const UserProfile = ({ onPress, user }) => {
+const UserProfile = ({ onPress, userDetails }) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles.container}>
             <Image
                 source={
-                    user?.photoURL
-                        ? { uri: user.photoURL }
+                    userDetails?.photoUrl
+                        ? { uri: userDetails.photoUrl }
                         : require("./../../assets/user.jpg")
                 }
                 style={styles.image}

@@ -10,13 +10,13 @@ import { StyleSheet } from "react-native";
 import { app } from "../../firebase.config";
 
 export const UserContext = createContext();
-// export const auth = getAuth(app);
 export const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [userDetails, setUserDetails] = useState(null);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -28,7 +28,9 @@ const UserProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider
+            value={{ user, setUser, userDetails, setUserDetails }}
+        >
             {children}
         </UserContext.Provider>
     );

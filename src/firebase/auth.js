@@ -4,7 +4,15 @@ import {
 } from "firebase/auth";
 import { auth } from "../utils/UserProvider";
 import { db } from "../../firebase.config";
-import { Timestamp, addDoc, collection, getDoc } from "firebase/firestore";
+import {
+    Timestamp,
+    addDoc,
+    collection,
+    getDoc,
+    getDocs,
+    query,
+    where,
+} from "firebase/firestore";
 
 const userCollection = collection(db, "users");
 
@@ -26,14 +34,23 @@ export const loginRequest = async ({ email, password }) => {
     return await signInWithEmailAndPassword(auth, email, password);
 };
 
-// export const getAuthenticatedUser = async (email) => {
-//     const q = await query(userCollection, where("email", "==", email));
-//     const userSnapshot = await getDoc(q);
-//     if (userSnapshot.size > 0) {
-//         const user = userSnapshot.docs[0].data();
-//         user.id = userSnapshot.docs[0].id;
-//         return user;
-//     } else {
-//         return null;
-//     }
-// };
+export async function getUsersRequest(email) {
+    const q = await query(userCollection, where("email", "==", email));
+    const usersSnapshot = await getDocs(q);
+    const users = usersSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+    }));
+    return users;
+}
+
+export async function getUserByEmailRequest(email) {
+    const q = await query(userCollection, where("email", "==", email));
+    const usersSnapshot = await getDocs(q);
+    if (usersSnapshot.docs.length === 0) {
+        return null;
+    }
+    const userDoc = usersSnapshot.docs[0];
+    const user = userDoc.data();
+    return user;
+}

@@ -1,23 +1,21 @@
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { colors } from "../../styles";
 import { UserContext, auth } from "../utils/UserProvider";
-import { app } from "../../firebase.config";
 
 const SettingsScreen = () => {
-    const { user } = useContext(UserContext);
-    const currentUser = getAuth(app).currentUser;
-    console.log(currentUser);
+    const { user, userDetails } = useContext(UserContext);
+    console.log(userDetails);
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
                     <Image
                         source={
-                            user?.photoURL
-                                ? { uri: user.photoURL }
+                            userDetails?.photoUrl
+                                ? { uri: userDetails?.photoUrl }
                                 : require("./../../assets/user.jpg")
                         }
                         style={styles.image}
@@ -25,17 +23,17 @@ const SettingsScreen = () => {
                 </View>
 
                 <View style={styles.infoContainer}>
-                    <Text>Name: </Text>
+                    <Text style={styles.info}>Name: </Text>
                     <Text style={styles.infoItem}>
-                        {user?.name ?? "No name found"}
+                        {userDetails?.name ?? "No name found"}
                     </Text>
                 </View>
                 <View style={styles.infoContainer}>
-                    <Text>Email: </Text>
-                    <Text style={styles.infoItem}>{user?.email}</Text>
+                    <Text style={styles.info}>Email: </Text>
+                    <Text style={styles.infoItem}>{userDetails?.email}</Text>
                 </View>
                 <View style={styles.infoContainer}>
-                    <Text>Email Verification: </Text>
+                    <Text style={styles.info}>Verification: </Text>
                     <Text style={styles.infoItem}>
                         {user?.emailVerified ? "verified" : "not verified"}
                     </Text>
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: "white",
         borderRadius: 8,
-        gap: 16,
+        gap: 8,
     },
     imageContainer: {
         alignItems: "center",
@@ -77,8 +75,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 8,
     },
+    info: {
+        color: colors.muted,
+        width: 100,
+        fontWeight: "500",
+    },
     infoItem: {
         fontWeight: "500",
         color: colors.muted,
+        backgroundColor: colors.background,
+        padding: 8,
+        borderRadius: 8,
     },
 });

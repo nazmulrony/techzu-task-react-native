@@ -6,7 +6,7 @@ import { UserContext, auth } from "../utils/UserProvider";
 import UserProfile from "./UserProfile";
 
 const AppBar = () => {
-    const { user } = useContext(UserContext);
+    const { user, userDetails } = useContext(UserContext);
 
     const [visible, setVisible] = useState(false);
     const openMenu = () => setVisible(true);
@@ -15,13 +15,16 @@ const AppBar = () => {
 
     return (
         <Menu
-            style={styles.container}
+            contentStyle={styles.container}
             visible={visible}
             onDismiss={closeMenu}
-            anchor={<UserProfile user={user} onPress={openMenu} />}
+            anchor={
+                <UserProfile userDetails={userDetails} onPress={openMenu} />
+            }
         >
+            <Menu.Item onPress={() => {}} title={userDetails?.name} />
+            <Divider />
             <Menu.Item onPress={() => {}} title={user?.email} />
-
             <Divider />
             <Menu.Item
                 trailingIcon="logout"
@@ -40,5 +43,6 @@ export default AppBar;
 const styles = StyleSheet.create({
     container: {
         marginTop: 50,
+        backgroundColor: "white",
     },
 });

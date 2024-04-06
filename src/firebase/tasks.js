@@ -14,11 +14,11 @@ import { db } from "../../firebase.config";
 
 const taskCollection = collection(db, "tasks");
 
-export async function getTasks(uid) {
+export async function getTasksRequest(uid) {
     const q = await query(
         taskCollection,
         where("uid", "==", uid)
-        //OrderBy query wasn't working for me. So I sorted the task in client side
+        //OrderBy query wasn't working for me even after indexing in fireStore. So I sorted the task in client side
         // orderBy("createdAt", "desc")
     );
     const tasksSnapshot = await getDocs(q);
