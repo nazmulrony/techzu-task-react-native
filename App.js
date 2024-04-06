@@ -6,6 +6,7 @@ import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserProvider from "./src/utils/UserProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { theme } from "./styles";
 
 export default function App() {
     const queryClient = new QueryClient({
@@ -19,7 +20,7 @@ export default function App() {
         <SafeAreaProvider>
             <QueryClientProvider client={queryClient}>
                 <UserProvider>
-                    <PaperProvider>
+                    <PaperProvider theme={theme}>
                         <NavigationContainer style={styles.container}>
                             <StatusBar style="auto" />
                             <StackNavigator />

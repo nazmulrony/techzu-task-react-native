@@ -1,3 +1,4 @@
+import { MD3LightTheme as DefaultTheme } from "react-native-paper";
 export const colors = {
     primary300: "#efdcfc",
     primary500: "#663399",
@@ -10,4 +11,9 @@ export const colors = {
     background: "#F2F5F7",
     muted: "#5f5f5f",
     border: "#ccd2da",
+};
+
+export const theme = {
+    ...DefaultTheme,
+    roundness: 1,
 };

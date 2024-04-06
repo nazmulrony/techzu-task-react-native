@@ -40,10 +40,10 @@ export async function addTaskRequest(data) {
 
 export async function updateTask(taskId) {
     const taskRef = doc(taskCollection, taskId);
-    await updateDoc(taskRef, { isCompleted: true });
+    return await updateDoc(taskRef, { isCompleted: true });
 }
 
 export async function deleteTask(taskId) {
     const taskRef = doc(taskCollection, taskId);
-    await deleteDoc(taskRef);
+    return await deleteDoc(taskRef);
 }

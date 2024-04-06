@@ -4,40 +4,105 @@ import { Button, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSignup } from "../services/mutations";
 import { colors } from "../../styles";
+import ImagePicker from "../components/ImagePicker";
+import { useForm, Controller } from "react-hook-form";
+import InputField from "../components/InputField";
 
 const SignupScreen = ({ navigation }) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
+    const { control, handleSubmit, errors } = useForm({
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+            photoUrl: "",
+        },
+    });
     //signup hook
     const { mutateAsync: createUser, isPending, error, isError } = useSignup();
 
-    const handleSignup = async () => {
-        await createUser({ email, password });
+    const handleSignup = async (values) => {
+        await createUser(values);
     };
     return (
         <SafeAreaView style={styles.screen}>
             <Text style={styles.signupText}>Sign up</Text>
             <View style={styles.formContainer}>
-                <TextInput
-                    mode="outlined"
-                    label="Email"
-                    value={email?.toLocaleLowerCase()}
-                    onChangeText={(value) => setEmail(value)}
+                <Controller
+                    name="name"
+                    control={control}
+                    rules={{
+                        required: "Name is required",
+                        pattern: {
+                            message: "Invalid email",
+                        },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <InputField
+                            label="Name"
+                            error={errors?.name?.message}
+                            value={value}
+                            onChangeText={(value) => onChange(value)}
+                        />
+                    )}
                 />
-                <TextInput
-                    mode="outlined"
-                    label="Password"
-                    value={password}
-                    secureTextEntry
-                    onChangeText={(value) => setPassword(value)}
+                <Controller
+                    name="email"
+                    control={control}
+                    rules={{
+                        required: "Email is required",
+                        pattern: {
+                            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                            message: "Invalid email",
+                        },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <InputField
+                            label="Email"
+                            error={errors?.email?.message}
+                            value={value?.toLocaleLowerCase()}
+                            onChangeText={(value) => onChange(value)}
+                            inputConfig={{
+                                autoCapitalize: "none",
+                                keyboardType: "email-address",
+                            }}
+                        />
+                    )}
                 />
+                <Controller
+                    name="password"
+                    control={control}
+                    rules={{
+                        required: "Password is required",
+                    }}
+                    render={({ field: { onChange, value } }) => (
+                        <InputField
+                            label="Password"
+                            error={errors?.password?.message}
+                            value={value}
+                            onChangeText={(value) => onChange(value)}
+                            inputConfig={{
+                                secureTextEntry: true,
+                            }}
+                        />
+                    )}
+                />
+                <Controller
+                    name="photoUrl"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <ImagePicker
+                            setSelectedImage={(value) => onChange(value)}
+                            label="Profile Image"
+                        />
+                    )}
+                />
+
                 {isError ? (
                     <Text style={styles.errorText}>{error.message}</Text>
                 ) : null}
                 <Button
                     mode="contained"
-                    onPress={handleSignup}
+                    onPress={handleSubmit(handleSignup)}
                     loading={isPending}
                 >
                     Sign up

@@ -1,13 +1,15 @@
-import { signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { colors } from "../../styles";
 import { UserContext, auth } from "../utils/UserProvider";
+import { app } from "../../firebase.config";
 
 const SettingsScreen = () => {
     const { user } = useContext(UserContext);
-    console.log({ user });
+    const currentUser = getAuth(app).currentUser;
+    console.log(currentUser);
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
